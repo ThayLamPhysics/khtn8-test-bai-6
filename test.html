@@ -3193,7 +3193,8 @@
     </script>
 
 
-<!-- KHTN_AUTOFILL v2: tự điền tên học sinh đã đăng nhập ở trang KHTN (cùng tên miền -> dùng chung localStorage) -->
+
+<!-- KHTN_AUTOFILL v3: tự điền tên học sinh đã đăng nhập ở trang KHTN (cùng tên miền -> dùng chung localStorage) -->
 <script>
 (function () {
     function getStudent() {
@@ -3208,17 +3209,7 @@
         var inp = document.getElementById('student-name');
         var name = (getStudent() || '').trim();
         if (!inp || !name || inp.value) return;
-        inp.value = name;
-        inp.readOnly = true;
-        inp.style.background = '#f1f5f9';
-        var note = document.createElement('p');
-        inp.style.marginBottom = '8px';
-        note.style.cssText = 'font-size:12px;color:#059669;margin:0 0 16px;font-weight:600;line-height:1.5;';
-        note.innerHTML = '\u2705 \u0110\u00e3 t\u1ef1 \u0111i\u1ec1n t\u00ean t\u1eeb t\u00e0i kho\u1ea3n \u0111\u0103ng nh\u1eadp. <a href="#" style="text-decoration:underline;color:#2563eb">Kh\u00f4ng ph\u1ea3i em? S\u1eeda t\u00ean</a>';
-        note.querySelector('a').onclick = function (e) {
-            e.preventDefault(); inp.readOnly = false; inp.style.background = ''; inp.focus(); note.remove();
-        };
-        inp.insertAdjacentElement('afterend', note);
+        inp.value = name; // chỉ điền sẵn, vẫn cho phép sửa nếu dùng chung máy
     }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply); else apply();
 })();
