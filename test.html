@@ -3191,6 +3191,36 @@
         }
 
     </script>
+
+<!-- KHTN_AUTOFILL: tự điền tên học sinh đã đăng nhập ở trang KHTN (cùng tên miền -> dùng chung localStorage) -->
+<script>
+(function () {
+    function getStudent() {
+        try { var p = new URLSearchParams(location.search); if (p.get('hs')) return p.get('hs'); } catch (e) { }
+        try {
+            var s = JSON.parse(localStorage.getItem('khtnSession') || 'null');
+            if (s && s.user) return s.user.name || s.user.username || '';
+        } catch (e) { }
+        return localStorage.getItem('username') || '';
+    }
+    function apply() {
+        var inp = document.getElementById('student-name');
+        var name = (getStudent() || '').trim();
+        if (!inp || !name || inp.value) return;
+        inp.value = name;
+        inp.readOnly = true;
+        inp.style.background = '#f1f5f9';
+        var note = document.createElement('p');
+        note.style.cssText = 'font-size:12px;color:#059669;margin:-12px 0 14px;font-weight:600;';
+        note.innerHTML = '\u2705 \u0110\u00e3 t\u1ef1 \u0111i\u1ec1n t\u00ean t\u1eeb t\u00e0i kho\u1ea3n \u0111\u0103ng nh\u1eadp. <a href="#" style="text-decoration:underline;color:#2563eb">Kh\u00f4ng ph\u1ea3i em? S\u1eeda t\u00ean</a>';
+        note.querySelector('a').onclick = function (e) {
+            e.preventDefault(); inp.readOnly = false; inp.style.background = ''; inp.focus(); note.remove();
+        };
+        inp.insertAdjacentElement('afterend', note);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply); else apply();
+})();
+</script>
 </body>
 
 </html>
